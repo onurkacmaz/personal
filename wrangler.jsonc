@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "personal",
+  "compatibility_date": "2026-09-05",
+
+  // No "main": this Worker serves static assets only, so requests are
+  // answered straight from the edge without invoking any script.
+  "assets": {
+    "directory": "./public"
+  }
+}
