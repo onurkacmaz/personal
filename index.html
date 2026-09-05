@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Onur Kaçmaz</title>
+<meta name="description" content="Onur Kaçmaz. Backend developer at HotelRunner. Building Togul, a feature flag platform, and developer tools in Go.">
+<meta property="og:title" content="Onur Kaçmaz">
+<meta property="og:description" content="Backend developer. Event driven microservices, embedded finance, and Togul.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/portrait.jpg">
+<meta name="theme-color" content="#ffffff">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<link rel="icon" href="img/portrait.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  color-scheme:light;
+  --bg:#fff;
+  --text:#171717;
+  --text-2:#525252;
+  --muted:#767676;
+  --line:#ebebeb;
+  --hover:#f5f5f5;
+  --shot:#fafafa;
+  --bar:rgba(255,255,255,.85);
+  --col:768px;
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0d0d0d;
+  --text:#ededed;
+  --text-2:#a3a3a3;
+  --muted:#9b9b9b;
+  --line:#262626;
+  --hover:#1a1a1a;
+  --shot:#141414;
+  --bar:rgba(13,13,13,.85);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px;line-height:24px;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--text);outline-offset:2px;border-radius:8px}
+
+/* ---------- sticky top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:20;height:56px;background:var(--bar);
+  backdrop-filter:blur(8px);border-bottom:1px solid transparent;transition:border-color .2s ease;
+}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.topbar-in{
+  max-width:var(--col);margin:0 auto;height:100%;padding:0 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.bar-left{display:flex;align-items:center;gap:10px;min-width:0}
+.brand{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;min-width:0;flex:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.brand img{width:22px;height:22px;border-radius:50%;object-fit:cover;flex:none}
+.brand span.name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- socials ---------- */
+.socials{display:flex;align-items:center;gap:2px}
+.soc{
+  width:30px;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;
+  color:var(--text-2);transition:background .15s ease,color .15s ease;
+}
+.soc:hover{background:var(--hover);color:var(--text)}
+.soc svg{width:17px;height:17px}
+.bar-right{display:flex;align-items:center;gap:6px}
+.theme-btn{
+  width:30px;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;
+  color:var(--text-2);transition:background .15s ease,color .15s ease;flex:none;
+}
+.theme-btn:hover{background:var(--hover);color:var(--text)}
+.theme-btn svg{width:17px;height:17px}
+html:not([data-theme="dark"]) .icon-sun{display:none}
+html[data-theme="dark"] .icon-moon{display:none}
+@media(max-width:430px){
+  .bar-left{gap:4px}
+  .socials .soc{width:27px;height:27px}
+  .socials .soc svg{width:16px;height:16px}
+  .brand span.name{font-size:13px}
+}
+@media(max-width:340px){.brand span.name{display:none}}
+
+/* ---------- layout ---------- */
+main{max-width:var(--col);margin:0 auto;padding:36px 16px 96px;display:flex;flex-direction:column;gap:56px}
+.block{display:flex;flex-direction:column;gap:16px}
+h1{font-size:24px;line-height:32px;font-weight:600;margin:0;letter-spacing:-.01em}
+.bio{font-size:24px;line-height:32px;font-weight:600;color:var(--text-2);margin:0;letter-spacing:-.01em}
+.bio a{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.bio a:hover{text-decoration-color:var(--muted)}
+.label{font-size:16px;line-height:24px;font-weight:400;color:var(--muted);margin:0}
+@media(max-width:520px){
+  h1,.bio{font-size:21px;line-height:29px}
+  main{padding:26px 16px 64px;gap:44px}
+}
+
+/* ---------- lists ---------- */
+ul.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.row{border-radius:10px}
+.row-btn{
+  width:100%;min-height:48px;display:flex;align-items:center;gap:12px;
+  padding:9px 10px;border-radius:10px;text-align:left;transition:background .15s ease;
+}
+.row-btn:hover{background:var(--hover)}
+.row-ico{
+  width:26px;height:26px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;color:#fff;letter-spacing:-.02em;
+}
+/* logos that need a surface of their own (dark wordmarks, illustrations) */
+.row-ico.logo{background:#fff;border:1px solid var(--line);overflow:hidden;padding:2px}
+.row-ico.logo img{width:100%;height:100%;object-fit:contain;display:block}
+/* self-contained app icons that already carry their own rounded-square artwork */
+.row-ico.bare{background:none}
+.row-ico.bare img{width:100%;height:100%;object-fit:contain;display:block}
+.row-txt{flex:1;min-width:0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.row-title{font-size:20px;line-height:28px;letter-spacing:-.01em}
+.row-desc{font-size:16px;line-height:24px;color:var(--muted)}
+.chev{flex:none;color:var(--muted);transition:transform .2s ease}
+.row-btn[aria-expanded="true"] .chev{transform:rotate(90deg)}
+@media(max-width:560px){
+  .row-txt{flex-direction:column;gap:1px}
+  .row-title{font-size:18px;line-height:26px}
+  .row-desc{font-size:15px;line-height:21px}
+}
+
+/* ---------- expandable panel ---------- */
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+.row-btn[aria-expanded="true"] + .panel{grid-template-rows:1fr}
+.panel-in{overflow:hidden;min-height:0}
+.panel-pad{padding:8px 10px 24px 48px;display:flex;flex-direction:column;gap:18px}
+@media(max-width:560px){.panel-pad{padding-left:10px}}
+.panel-pad p{margin:0;color:var(--text-2);font-size:17px;line-height:28px}
+.panel-pad p.sum{color:var(--text)}
+ul.bul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+ul.bul li{position:relative;padding-left:19px;color:var(--text-2);font-size:16px;line-height:25px}
+ul.bul li::before{content:"";position:absolute;left:4px;top:10px;width:5px;height:5px;border-radius:50%;background:var(--muted)}
+ul.bul b{color:var(--text);font-weight:600}
+.panel-pad p b{color:var(--text);font-weight:600}
+.meta-row{display:flex;align-items:flex-start;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;line-height:20px;color:var(--text-2);background:var(--hover);border-radius:6px;padding:2px 8px}
+
+/* ---------- screenshots ---------- */
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shots.one{grid-template-columns:1fr}
+.shot{
+  position:relative;aspect-ratio:16/10;border-radius:10px;overflow:hidden;background:var(--shot);
+  border:1px solid var(--line);
+}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shot.contain{background:#fff}
+.shot.contain img{object-fit:contain;padding:18px}
+@media(max-width:560px){.shots{grid-template-columns:1fr}}
+.links{display:flex;flex-wrap:wrap;gap:16px}
+.links a{
+  font-size:15px;line-height:22px;color:var(--text-2);
+  border-bottom:1px solid var(--line);padding-bottom:1px;transition:color .15s ease,border-color .15s ease;
+}
+.links a:hover{color:var(--text);border-bottom-color:var(--muted)}
+@media(prefers-reduced-motion:reduce){
+  .panel{transition:none}
+  .chev{transition:none}
+}
+
+/* ---------- stack ---------- */
+ul.stack{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+ul.stack li{display:flex;align-items:flex-start;gap:12px;padding:0 10px}
+.stack-k{width:120px;flex:none;color:var(--muted);font-size:15px;line-height:24px}
+@media(max-width:520px){
+  ul.stack li{flex-direction:column;gap:6px}
+  .stack-k{width:auto;font-size:14px;line-height:20px}
+}
+
+/* ---------- prose ---------- */
+.prose{display:flex;flex-direction:column;gap:16px;padding:0 10px}
+.prose p{margin:0;color:var(--text-2);font-size:17px;line-height:28px}
+.prose b{color:var(--text);font-weight:600}
+
+/* ---------- contact links ---------- */
+.link-row{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:10px;min-height:44px;transition:background .15s ease}
+.link-row:hover{background:var(--hover)}
+.link-row .ico{width:26px;display:flex;justify-content:center;color:var(--text-2);flex:none}
+.link-row .t{font-size:18px;line-height:26px;flex:1;min-width:0}
+.link-row .v{font-size:15px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:520px){.link-row .v{display:none}}
+
+footer{max-width:var(--col);margin:0 auto;padding:0 16px 64px;color:var(--muted);font-size:14px;line-height:22px}
+</style>
+</head>
+
+<body>
+
+<div class="topbar" id="topbar">
+  <div class="topbar-in">
+    <div class="bar-left">
+      <a class="brand" href="#top"><img src="img/portrait.jpg" alt=""><span class="name">Onur Kaçmaz</span></a>
+      <div class="socials">
+        <a class="soc" href="https://github.com/onurkacmaz" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        <a class="soc" href="https://www.linkedin.com/in/onurkcmz" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a class="soc" href="mailto:kacmaz.onur@hotmail.com" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M1.5 4.5h21v15h-21v-15Zm1.8 1.8v.62l8.7 5.6 8.7-5.6V6.3H3.3Zm17.4 3.13-7.72 4.97a1.8 1.8 0 0 1-1.96 0L3.3 9.43v8.27h17.4V9.43Z"/></svg></a>
+      </div>
+    </div>
+    <div class="bar-right">
+      <button class="theme-btn" id="theme-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ===== intro ===== -->
+  <div class="block">
+    <h1 class="sr-only">Onur Kaçmaz</h1>
+    <p class="bio">I build backend systems. Core team at <a href="https://www.hotelrunner.com" target="_blank" rel="noopener">HotelRunner</a>, on event driven microservices and embedded finance for travel. On the side I build <a href="https://togul.io" target="_blank" rel="noopener">Togul</a> and developer tools in Go.</p>
+  </div>
+
+  <!-- ===== projects ===== -->
+  <div class="block">
+    <p class="label">Projects</p>
+    <ul class="list">
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico bare"><img src="img/logo-togul.svg" alt="Togul logo"></span>
+          <span class="row-txt"><span class="row-title">Togul</span><span class="row-desc">Feature flag and remote config platform</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">A feature flag and remote config service, built as an alternative to LaunchDarkly and Unleash. I build all of it: the API, the dashboard, the SDKs and the infrastructure.</p>
+          <div class="shots">
+            <div class="shot"><img src="img/togul-1.jpg" alt="Togul landing page" loading="lazy"></div>
+            <div class="shot"><img src="img/togul-2.jpg" alt="Togul dashboard" loading="lazy"></div>
+          </div>
+          <ul class="bul">
+            <li>Go API on Fiber with a pure <b>flag evaluation engine</b>, multi-tenancy, audit logging and billing through Stripe and LemonSqueezy.</li>
+            <li><b>SSE fan-out</b> pushes cache invalidation to connected SDKs, so flipping a flag reaches production without a redeploy.</li>
+            <li><b>Five official SDKs</b> — Go, JavaScript/Next.js, PHP, Laravel and Ruby — all built against one OpenAPI contract.</li>
+            <li>Next.js dashboard, a <b>Terraform provider</b> for managing flags as code, and a CLI for scripting and CI/CD.</li>
+            <li>Runs on Kubernetes with PostgreSQL, Redis and MongoDB, with infrastructure kept in its own repo and its own pipeline.</li>
+          </ul>
+          <div class="meta-row">
+            <span class="tag">Go</span><span class="tag">Fiber</span><span class="tag">Next.js</span><span class="tag">TypeScript</span>
+            <span class="tag">PostgreSQL</span><span class="tag">Redis</span><span class="tag">MongoDB</span>
+            <span class="tag">Kubernetes</span><span class="tag">Terraform</span>
+          </div>
+          <div class="links">
+            <a href="https://togul.io" target="_blank" rel="noopener">togul.io</a>
+          </div>
+        </div></div></div>
+      </li>
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico bare"><img src="img/logo-mesa.png" alt="Mesa app icon"></span>
+          <span class="row-txt"><span class="row-title">Mesa</span><span class="row-desc">Terminals on an infinite canvas, for macOS</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">A desktop app where every shell has a <b>place</b> instead of a tab. Drag terminals anywhere on an unbounded surface, zoom out to see the whole workspace, zoom back in to work, and find everything where you left it tomorrow.</p>
+          <div class="shots one">
+            <div class="shot"><img src="img/mesa-1.jpg" alt="Mesa canvas with terminal windows" loading="lazy"></div>
+          </div>
+          <ul class="bul">
+            <li>A tabbed terminal makes you remember which tab is which. Mesa gives every session a <b>position</b> you can navigate spatially.</li>
+            <li>Browser panes sit on the same canvas, so the thing you are building and the page you are checking it on are side by side rather than behind each other.</li>
+            <li>Electron and React on top, <b>node-pty</b> driving the real shells underneath.</li>
+            <li>Ships as a <b>.dmg</b> for Apple Silicon, MIT licensed.</li>
+          </ul>
+          <div class="meta-row">
+            <span class="tag">Electron</span><span class="tag">React</span><span class="tag">JavaScript</span>
+            <span class="tag">node-pty</span><span class="tag">Vite</span>
+          </div>
+          <div class="links">
+            <a href="https://github.com/onurkacmaz/mesa" target="_blank" rel="noopener">github.com/onurkacmaz/mesa</a>
+          </div>
+        </div></div></div>
+      </li>
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico logo"><img src="img/logo-otto.jpg" alt="otto mascot"></span>
+          <span class="row-txt"><span class="row-title">otto</span><span class="row-desc">Terminal database client for MySQL and PostgreSQL</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">A database console that lives in the terminal. Connect, browse tables and run SQL without leaving the shell.</p>
+          <div class="shots">
+            <div class="shot contain"><img src="img/otto-full.jpg" alt="otto mascot" loading="lazy"></div>
+          </div>
+          <ul class="bul">
+            <li>Persistent sidebar with <b>live table search</b>, and a split SQL editor that keeps the query and its results visible at the same time.</li>
+            <li>Table viewer with pagination, horizontal scrolling and <b>column sorting</b>.</li>
+            <li>Connection history, so a database you used yesterday is one keystroke away.</li>
+            <li>Written in Go on Charm's <b>BubbleTea</b>, installable through Homebrew.</li>
+          </ul>
+          <div class="meta-row">
+            <span class="tag">Go</span><span class="tag">BubbleTea</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span>
+          </div>
+          <div class="links">
+            <a href="https://github.com/onurkacmaz/otto" target="_blank" rel="noopener">github.com/onurkacmaz/otto</a>
+          </div>
+        </div></div></div>
+      </li>
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico logo"><img src="img/logo-jan.jpg" alt="jan mascot"></span>
+          <span class="row-txt"><span class="row-title">jan</span><span class="row-desc">Process supervisor written in Go</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">A small process supervisor. Start services as daemons, stop them, check their status and tail their logs, all from one YAML file.</p>
+          <div class="shots">
+            <div class="shot contain"><img src="img/jan-full.jpg" alt="jan mascot" loading="lazy"></div>
+          </div>
+          <ul class="bul">
+            <li>Daemonized <b>start, stop, restart and status</b>, driven by a single config file or a whole config directory at once.</li>
+            <li>Restart policies with retry limits and backoff, configurable log paths and built-in log tailing.</li>
+            <li>A single static binary, installed with one curl line.</li>
+          </ul>
+          <div class="meta-row">
+            <span class="tag">Go</span><span class="tag">CLI</span><span class="tag">POSIX</span>
+          </div>
+          <div class="links">
+            <a href="https://github.com/onurkacmaz/jan" target="_blank" rel="noopener">github.com/onurkacmaz/jan</a>
+          </div>
+        </div></div></div>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- ===== experience ===== -->
+  <div class="block">
+    <p class="label">Experience</p>
+    <ul class="list">
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico logo"><img src="img/logo-hotelrunner.png" alt="HotelRunner logo"></span>
+          <span class="row-txt"><span class="row-title">HotelRunner</span><span class="row-desc">Backend Developer, 2024 to now</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">A travel and hospitality technology platform. I work in the <b>core team</b>, in İzmir, since March 2024.</p>
+          <ul class="bul">
+            <li>Develop <b>multiple microservices</b> on an <b>event driven architecture</b>.</li>
+            <li>Developer of an <b>embedded finance infrastructure</b> built specifically for the global travel industry.</li>
+            <li>Work across the core domain, where changes reach every product on the platform.</li>
+          </ul>
+          <div class="meta-row">
+            <span class="tag">PHP</span><span class="tag">Ruby</span><span class="tag">Go</span>
+            <span class="tag">Microservices</span><span class="tag">Event driven</span><span class="tag">PostgreSQL</span>
+          </div>
+        </div></div></div>
+      </li>
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico logo"><img src="img/logo-path.svg" alt="PATH logo"></span>
+          <span class="row-txt"><span class="row-title">PATH</span><span class="row-desc">PHP Developer, 2022 to 2024</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">Product and software house in İstanbul. <b>2 years 3 months</b>, from January 2022 to March 2024.</p>
+          <ul class="bul">
+            <li>Backend developer on a <b>SuperApp</b>, bringing several services together under one product.</li>
+            <li>Built <b>logistics</b> systems and <b>paid entertainment</b> platforms.</li>
+          </ul>
+          <div class="meta-row">
+            <span class="tag">PHP</span><span class="tag">Laravel</span><span class="tag">Symfony</span><span class="tag">MySQL</span>
+          </div>
+        </div></div></div>
+      </li>
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico logo"><img src="img/logo-adt.svg" alt="ADT Bilişim logo"></span>
+          <span class="row-txt"><span class="row-title">ADT Bilişim</span><span class="row-desc">Back End Developer, 2018 to 2022</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">ADT İnternet ve Bilişim Teknolojileri Tic. Ltd. Şti., in Samsun. <b>3 years 5 months</b>, from September 2018 to January 2022. My longest run so far.</p>
+          <ul class="bul">
+            <li>Worked with <b>message queuing</b> and <b>microservices</b>.</li>
+            <li>Developed <b>e-commerce</b>, <b>stock management</b> and <b>marketplace</b> applications with the team.</li>
+          </ul>
+          <div class="meta-row">
+            <span class="tag">PHP</span><span class="tag">Laravel</span><span class="tag">Message queues</span>
+            <span class="tag">MySQL</span><span class="tag">MongoDB</span>
+          </div>
+        </div></div></div>
+      </li>
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico logo"><img src="img/logo-adbando.png" alt="Adbando Adworks logo"></span>
+          <span class="row-txt"><span class="row-title">Adbando Adworks</span><span class="row-desc">Back End Developer, 2018</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">Back end developer in Samsun, June to September 2018. A <b>4 month</b> stint, and my first full time backend role after graduating.</p>
+        </div></div></div>
+      </li>
+
+      <li class="row">
+        <button class="row-btn" aria-expanded="false">
+          <span class="row-ico logo"><img src="img/logo-turcasoft.png" alt="TurcaSoft Yazılım logo"></span>
+          <span class="row-txt"><span class="row-title">TurcaSoft Yazılım</span><span class="row-desc">Intern, 2012</span></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+        </button>
+        <div class="panel"><div class="panel-in"><div class="panel-pad">
+          <p class="sum">Software intern in Samsun, June to August 2012. <b>3 months</b>, during high school, and where the whole thing started.</p>
+        </div></div></div>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- ===== stack ===== -->
+  <div class="block">
+    <p class="label">Stack</p>
+    <ul class="stack">
+      <li>
+        <span class="stack-k">Languages</span>
+        <span class="meta-row"><span class="tag">PHP</span><span class="tag">Ruby</span><span class="tag">Go</span></span>
+      </li>
+      <li>
+        <span class="stack-k">Frameworks</span>
+        <span class="meta-row"><span class="tag">Laravel</span><span class="tag">Symfony</span><span class="tag">Ruby on Rails</span></span>
+      </li>
+      <li>
+        <span class="stack-k">Databases</span>
+        <span class="meta-row"><span class="tag">MySQL</span><span class="tag">PostgreSQL</span><span class="tag">MongoDB</span></span>
+      </li>
+      <li>
+        <span class="stack-k">Version control</span>
+        <span class="meta-row"><span class="tag">GitHub</span><span class="tag">Bitbucket</span></span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ===== about ===== -->
+  <div class="block">
+    <p class="label">About</p>
+    <div class="prose">
+      <p>I am a software developer based in <b>İzmir, Türkiye</b>. Over the years I have worked on <b>e-commerce, CRM, logistics, superapp, finance, travel and paid entertainment</b> systems.</p>
+      <p>The through line is the backend: queues, services that talk to each other, and money and inventory that have to stay correct. I like the part of a system where a mistake is expensive, which is probably why I keep ending up in core teams.</p>
+      <p>Studied <b>Internet and Network Technologies</b> at Süleyman Demirel Üniversitesi, after Computer Technologies at Sema - Cengiz Büberci Mesleki ve Teknik Anadolu Lisesi. Certified on <b>Cisco IT Essentials</b> and <b>Cisco Discovery 1, 2 and 3</b>.</p>
+      <p>I work in <b>Turkish and English</b>.</p>
+    </div>
+  </div>
+
+  <!-- ===== contact ===== -->
+  <div class="block">
+    <p class="label">Let's chat</p>
+    <div class="prose"><p>If you are building something on the backend and think I would be useful, or you just want to talk about <b>PHP, Go or distributed systems</b>, my inbox is open. <b>I answer every message.</b></p></div>
+    <ul class="list">
+      <li><a class="link-row" href="https://github.com/onurkacmaz" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+        <span class="t">GitHub</span><span class="v">onurkacmaz</span></a></li>
+      <li><a class="link-row" href="https://www.linkedin.com/in/onurkcmz" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+        <span class="t">LinkedIn</span><span class="v">onurkcmz</span></a></li>
+      <li><a class="link-row" href="mailto:kacmaz.onur@hotmail.com">
+        <span class="ico"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M1.5 4.5h21v15h-21v-15Zm1.8 1.8v.62l8.7 5.6 8.7-5.6V6.3H3.3Zm17.4 3.13-7.72 4.97a1.8 1.8 0 0 1-1.96 0L3.3 9.43v8.27h17.4V9.43Z"/></svg></span>
+        <span class="t">Email</span><span class="v">kacmaz.onur@hotmail.com</span></a></li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>Onur Kaçmaz · İzmir</footer>
+
+<script>
+// accordion
+document.querySelectorAll('.row-btn').forEach(function(b){
+  b.addEventListener('click', function(){
+    b.setAttribute('aria-expanded', b.getAttribute('aria-expanded')==='true' ? 'false' : 'true');
+  });
+});
+
+// theme toggle
+var tbtn=document.getElementById('theme-btn');
+tbtn.addEventListener('click',function(){
+  var dark=document.documentElement.getAttribute('data-theme')==='dark';
+  if(dark){document.documentElement.removeAttribute('data-theme')}
+  else{document.documentElement.setAttribute('data-theme','dark')}
+  try{localStorage.setItem('theme',dark?'light':'dark')}catch(e){}
+  var m=document.querySelector('meta[name="theme-color"]');
+  if(m) m.setAttribute('content',dark?'#ffffff':'#0d0d0d');
+});
+
+// topbar border
+var tb=document.getElementById('topbar');
+addEventListener('scroll',function(){tb.classList.toggle('scrolled',scrollY>8)},{passive:true});
+</script>
+
+</body>
+</html>
