@@ -3,6 +3,10 @@
   "name": "personal",
   "compatibility_date": "2026-09-05",
 
+  // The login has access to more than one account, so pin the target
+  // explicitly instead of leaving the choice to a prompt.
+  "account_id": "e663e3d933363fff9f6408fabad8db0d",
+
   // No "main": this Worker serves static assets only, so requests are
   // answered straight from the edge without invoking any script.
   "assets": {
