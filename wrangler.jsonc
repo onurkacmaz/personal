@@ -16,11 +16,12 @@
   // Declaring routes makes wrangler default workers_dev to false, which takes
   // the *.workers.dev URL offline. Keep it explicit so that cannot happen.
   "workers_dev": true,
-  "preview_urls": true
+  "preview_urls": true,
 
-  // To serve onurkacmaz.com from this Worker, add:
-  //   "routes": [{ "pattern": "onurkacmaz.com", "custom_domain": true }]
-  // That currently fails with API error 100117, because the zone still has
-  // its own A records for the apex. Delete those in the Cloudflare dashboard
-  // first; a custom domain manages its own DNS record and certificate.
+  // custom_domain (rather than a plain route) lets Cloudflare create the DNS
+  // record and issue the certificate itself. A plain route would need a DNS
+  // record to already exist.
+  "routes": [
+    { "pattern": "onurkacmaz.com", "custom_domain": true }
+  ]
 }
