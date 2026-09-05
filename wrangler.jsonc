@@ -22,6 +22,7 @@
   // record and issue the certificate itself. A plain route would need a DNS
   // record to already exist.
   "routes": [
-    { "pattern": "onurkacmaz.com", "custom_domain": true }
+    { "pattern": "onurkacmaz.com", "custom_domain": true },
+    { "pattern": "www.onurkacmaz.com", "custom_domain": true }
   ]
 }
