@@ -105,18 +105,9 @@ h1{font-size:24px;line-height:32px;font-weight:600;margin:0;letter-spacing:-.01e
 .bio a{color:var(--text);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
 .bio a:hover{text-decoration-color:var(--muted)}
 .label{font-size:16px;line-height:24px;font-weight:400;color:var(--muted);margin:0}
-/* Opens the page. Squared off rather than a circle so the whole frame
-   survives, and so it does not read as a blown-up copy of the top bar
-   avatar. Width and height sit on the element so it holds its space
-   before the file loads and the bio below it never jumps. */
-.portrait{
-  width:120px;height:120px;border-radius:20px;object-fit:cover;
-  border:1px solid var(--line);
-}
 @media(max-width:520px){
   h1,.bio{font-size:21px;line-height:29px}
   main{padding:26px 16px 64px;gap:44px}
-  .portrait{width:96px;height:96px;border-radius:16px}
 }
 
 /* ---------- lists ---------- */
@@ -240,7 +231,6 @@ footer{max-width:var(--col);margin:0 auto;padding:0 16px 64px;color:var(--muted)
   <!-- ===== intro ===== -->
   <div class="block">
     <h1 class="sr-only">Onur Kaçmaz</h1>
-    <img class="portrait" src="img/portrait.jpg" width="120" height="120" alt="Onur Kaçmaz">
     <p class="bio">I build backend systems. Core team at <a href="https://www.hotelrunner.com" target="_blank" rel="noopener">HotelRunner</a>, on event driven microservices and embedded finance for travel. On the side I build <a href="https://togul.io" target="_blank" rel="noopener">Togul</a> and developer tools in Go.</p>
   </div>
 
