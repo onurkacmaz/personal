@@ -8,10 +8,13 @@
 <meta property="og:title" content="Onur Kaçmaz">
 <meta property="og:description" content="Backend developer. Event driven microservices, embedded finance, and Togul.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="img/portrait.jpg">
+<!-- Open Graph requires absolute URLs; a relative one silently drops the preview image. -->
+<meta property="og:image" content="https://onurkacmaz.com/img/portrait.jpg">
+<meta property="og:url" content="https://onurkacmaz.com/">
+<meta name="twitter:card" content="summary">
 <link rel="canonical" href="https://onurkacmaz.com/">
 <meta name="theme-color" content="#ffffff">
-<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script>try{if(localStorage.getItem('theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.querySelector('meta[name="theme-color"]').setAttribute('content','#0d0d0d')}}catch(e){}</script>
 <link rel="icon" href="img/portrait.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

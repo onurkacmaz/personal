@@ -10,7 +10,9 @@
   // No "main": this Worker serves static assets only, so requests are
   // answered straight from the edge without invoking any script.
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    // Without this, an unmatched path returns a 404 with an empty body.
+    "not_found_handling": "404-page"
   },
 
   // Declaring routes makes wrangler default workers_dev to false, which takes
