@@ -12,6 +12,10 @@ export const BLOG_CSS = `
 .post-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .post-title{font-size:20px;line-height:28px;letter-spacing:-.01em}
 .post-date{font-size:14px;line-height:22px;color:var(--muted);white-space:nowrap}
+.post-lang{
+  font-size:11px;line-height:18px;letter-spacing:.04em;color:var(--muted);
+  border:1px solid var(--line);border-radius:5px;padding:0 5px;white-space:nowrap;
+}
 .post-desc{font-size:16px;line-height:24px;color:var(--muted)}
 @media(max-width:560px){
   .post-title{font-size:18px;line-height:26px}
