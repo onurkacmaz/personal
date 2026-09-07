@@ -5,7 +5,7 @@ export const BLOG_CSS = `
 /* ---------- post list ---------- */
 .post-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .post-link{
-  display:flex;flex-direction:column;gap:4px;padding:12px 10px;border-radius:10px;
+  display:flex;flex-direction:column;gap:4px;padding:12px 10px;margin:0 -10px;border-radius:10px;
   transition:background .15s ease;
 }
 .post-link:hover{background:var(--hover)}
@@ -17,21 +17,21 @@ export const BLOG_CSS = `
   .post-title{font-size:18px;line-height:26px}
   .post-desc{font-size:15px;line-height:22px}
 }
-.empty{color:var(--muted);font-size:17px;line-height:28px;margin:0;padding:0 10px}
+.empty{color:var(--muted);font-size:17px;line-height:28px;margin:0}
 
 /* ---------- year groups ---------- */
 .year{display:flex;flex-direction:column;gap:6px}
-.year-k{font-size:14px;line-height:22px;color:var(--muted);padding:0 10px;margin:0}
+.year-k{font-size:14px;line-height:22px;color:var(--muted);margin:0}
 
 /* ---------- article header ---------- */
-.post-hero{display:flex;flex-direction:column;gap:12px;padding:0 10px}
+.post-hero{display:flex;flex-direction:column;gap:12px}
 .post-hero h1{font-size:32px;line-height:40px;letter-spacing:-.02em}
 .post-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:14px;line-height:22px}
 .post-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--muted);flex:none}
 @media(max-width:520px){.post-hero h1{font-size:25px;line-height:33px}}
 
 /* ---------- article prose ---------- */
-.article{padding:0 10px;color:var(--text-2);font-size:17px;line-height:28px}
+.article{color:var(--text-2);font-size:17px;line-height:28px}
 .article > *:first-child{margin-top:0}
 .article p{margin:0 0 20px}
 .article b{color:var(--text);font-weight:600}
@@ -79,7 +79,7 @@ export const BLOG_CSS = `
 
 /* ---------- article footer nav ---------- */
 .post-nav{display:flex;flex-direction:column;gap:6px}
-.nav-link{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:10px;transition:background .15s ease}
+.nav-link{display:flex;flex-direction:column;gap:2px;padding:10px;margin:0 -10px;border-radius:10px;transition:background .15s ease}
 .nav-link:hover{background:var(--hover)}
 .nav-k{font-size:13px;line-height:20px;color:var(--muted)}
 .nav-t{font-size:17px;line-height:26px}
