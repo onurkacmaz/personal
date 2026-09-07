@@ -51,10 +51,11 @@ URL, which otherwise follows the filename, so a published URL never moves
 because a title was reworded. `content/posts/_example-draft.md` shows all of
 them at once.
 
-Push to `main` and the GitHub Action builds and deploys, so the post is live a
-few minutes later. It needs one repository secret, `CLOUDFLARE_API_TOKEN`
-(the account is already pinned in `wrangler.jsonc`). Deploying by hand works
-just as well: `npm run deploy`.
+Push to `main` and Cloudflare Workers Builds picks it up and deploys, so the
+post is live a couple of minutes later. Nothing else is wired up: `build` also
+runs as `postinstall`, so `public/blog/` exists by the time the deploy step
+runs, wherever the deploy happens from. Deploying by hand works the same way:
+`npm run deploy`.
 
 The renderer covers headings, lists, quotes, tables, fenced code, images and
 links. It is `scripts/markdown.mjs`, about two hundred lines, written here so
@@ -63,7 +64,7 @@ links. It is `scripts/markdown.mjs`, about two hundred lines, written here so
 ## Local
 
 ```sh
-npm install
+npm install        # also builds the blog, via postinstall
 npm run dev        # builds the blog, then serves public/ on localhost
 npm run build      # just the blog, into public/blog/
 ```
@@ -77,6 +78,9 @@ generated and not checked in.
 ```sh
 npm run deploy     # build, then wrangler deploy
 ```
+
+A push to `main` deploys on its own through Workers Builds, so this is only
+for deploying without pushing.
 
 `wrangler.jsonc` pins the Cloudflare account and both custom domains
 (`onurkacmaz.com` and `www.onurkacmaz.com`), so a deploy from any machine
