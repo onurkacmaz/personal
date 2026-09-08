@@ -99,6 +99,9 @@ async function loadPosts() {
       file,
       slug,
       title,
+      // Posts are written in more than one language; the default keeps every
+      // existing file working without a front matter change.
+      lang: data.lang || 'en',
       date,
       dateLabel: formatDate(date),
       description: data.description || data.summary || plain.slice(0, 180).trim(),
@@ -120,9 +123,11 @@ async function loadPosts() {
 
 /* ---------- pages ---------- */
 
-function page({ title, description, canonical, css, body, ogType = 'website', extraHead = '' }) {
+const OG_LOCALE = { en: 'en_GB', tr: 'tr_TR' };
+
+function page({ title, description, canonical, css, body, lang = 'en', ogType = 'website', extraHead = '' }) {
   return `<!doctype html>
-<html lang="en">
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -131,6 +136,7 @@ function page({ title, description, canonical, css, body, ogType = 'website', ex
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:type" content="${ogType}">
+<meta property="og:locale" content="${OG_LOCALE[lang] || 'en_GB'}">
 <!-- Open Graph requires absolute URLs; a relative one silently drops the preview image. -->
 <meta property="og:image" content="${SITE}/img/portrait.jpg">
 <meta property="og:url" content="${canonical}">
@@ -166,6 +172,7 @@ function postRow(p) {
         <a class="post-link" href="/blog/${p.slug}/">
           <span class="post-head">
             <span class="post-title">${escapeHtml(p.title)}</span>
+            ${p.lang !== 'en' ? `<span class="post-lang">${escapeHtml(p.lang.toUpperCase())}</span>` : ''}
             <time class="post-date" datetime="${p.date}">${p.dateLabel}</time>
           </span>
           ${p.description ? `<span class="post-desc">${escapeHtml(p.description)}</span>` : ''}
@@ -270,6 +277,7 @@ ${navLinks}
     canonical: `${SITE}/blog/${post.slug}/`,
     css: BLOG_CSS,
     body,
+    lang: post.lang,
     ogType: 'article',
     extraHead: `<script type="application/ld+json">${jsonLd}</script>`,
   });
