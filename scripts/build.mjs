@@ -199,7 +199,7 @@ ${g.posts.map(postRow).join('\n')}
 
   <div class="block">
     <h1 class="sr-only">Writing</h1>
-    <p class="lead">Notes on backend work: queues, services that talk to each other, and the parts of a system where a mistake is expensive.</p>
+    <p class="lead">Notes on the things I build: backend services, and the developer tools that come out of them.</p>
   </div>
 
   <div class="block">
