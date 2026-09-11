@@ -4,8 +4,6 @@ description: What I learned building Togul, a feature flag platform, mostly on m
 tags: [Go, Fiber, OpenAPI, Kubernetes]
 ---
 
-*Bu yazının [Türkçesi](/blog/tek-kontrat-bes-sdk/) de var.*
-
 [Togul](https://togul.io) is a feature flag and remote config platform I build
 on the side, as an alternative to LaunchDarkly and Unleash. All of it: the API,
 the dashboard, the SDKs, the infrastructure. That is either a bad idea or a

@@ -4,8 +4,6 @@ description: Why I built Mesa, a macOS app that puts shells on an infinite canva
 tags: [Electron, React, macOS, node-pty]
 ---
 
-*Bu yazının [Türkçesi](/blog/terminaller-sekme-degil-yer-hak-eder/) de var.*
-
 Every terminal I have used asks me to keep a map in my head. The tab bar says
 `zsh`, `zsh`, `zsh`, `npm`, `zsh`. I know the fourth one is the dev server and
 the second one is the database I keep forgetting to stop, but only because I
