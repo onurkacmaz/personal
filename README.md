@@ -67,8 +67,10 @@ links. It is `scripts/markdown.mjs`, about two hundred lines, written here so
 The blog is behind the Togul feature flag `blog`. The browser SDK
 (`public/js/blog-flag.js`) asks this site's own `/api/v1/evaluate`, and
 `src/worker.js` forwards that to Togul with the key, so there is no CORS
-problem and the key never reaches the page. The Worker fixes the flag and
-environment itself, so the route can't evaluate anything else.
+problem and the key never reaches the page. The Worker fixes the flag itself,
+so the route can't evaluate anything else. It calls Togul's OFREP endpoint,
+where the environment is the one the key belongs to, so the key must be for
+the environment that holds the `blog` flag.
 
 The key is the Worker secret `TOGUL_SDK_KEY`: set it under the Worker's
 Settings → Variables and secrets, or with `npx wrangler secret put TOGUL_SDK_KEY`.
