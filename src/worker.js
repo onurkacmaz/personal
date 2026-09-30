@@ -1,16 +1,14 @@
 // Static assets plus one API route: the Togul "blog" flag evaluation.
 //
-// The browser can't call api.togul.io directly (the SDK key would ship in the
-// page), so it posts to /api/v1/evaluate on this origin and this Worker asks
-// Togul with the key from the TOGUL_SDK_KEY secret. The request body is
-// ignored: the flag is fixed here, so the route can't evaluate anything else.
-//
-// It uses Togul's OFREP endpoint, where the environment comes from the API
-// key itself, so there is no environment name to keep in sync. The answer is
-// reshaped into what the @togul/js SDK expects from /api/v1/evaluate.
+// The browser can't call api.togul.io directly (CORS, and the SDK key would
+// ship in the page), so it posts to /api/v1/evaluate on this origin and this
+// Worker forwards the request with the key from the TOGUL_SDK_KEY secret.
+// The request body is ignored: the flag, environment and context are fixed
+// here, so the route can't be used to evaluate anything else.
 
-const UPSTREAM = 'https://api.togul.io/ofrep/v1/evaluate/flags/blog';
+const UPSTREAM = 'https://api.togul.io/api/v1/evaluate';
 const FLAG = 'blog';
+const ENVIRONMENT = 'production';
 
 export default {
   async fetch(request, env) {
@@ -28,39 +26,21 @@ export default {
       upstream = await fetch(UPSTREAM, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-API-Key': env.TOGUL_SDK_KEY },
-        body: JSON.stringify({ context: {} }),
+        body: JSON.stringify({ flag_key: FLAG, environment_key: ENVIRONMENT, context: {} }),
       });
     } catch {
       return json({ error: 'upstream unreachable' }, 502);
     }
 
-    // Togul's errors (bad key, unknown flag, quota) pass through untouched.
-    if (!upstream.ok) return json(await readJson(upstream), upstream.status);
-
-    const data = await readJson(upstream);
-    if (!data) return json({ error: 'bad upstream response' }, 502);
-
-    // OFREP leaves `value` out when the flag is disabled, and says so in
-    // `reason`; the SDK's `enabled` is that same "flag is active" bit.
-    return json({
-      flag_key: FLAG,
-      enabled: data.reason !== 'DISABLED',
-      value_type: typeof data.value === 'boolean' ? 'boolean' : 'json',
-      value: data.value ?? null,
-      reason: String(data.reason ?? 'UNKNOWN').toLowerCase(),
+    // Pass Togul's answer through untouched, whatever the status.
+    return new Response(upstream.body, {
+      status: upstream.status,
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
     });
   },
 };
 
-async function readJson(response) {
-  try {
-    return await response.json();
-  } catch {
-    return null;
-  }
-}
-
-function json(body, status = 200, headers = {}) {
+function json(body, status, headers = {}) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...headers },
