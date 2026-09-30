@@ -4,13 +4,13 @@
 // adding one file and pushing it. Nothing here reads the network, and there is
 // no dependency beyond Node itself.
 
-import { readdir, readFile, writeFile, mkdir, rm } from 'node:fs/promises';
+import { readdir, readFile, writeFile, mkdir, rm, cp } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { renderMarkdown, stripMarkdown, escapeHtml, slugify } from './markdown.mjs';
-import { BASE_CSS, FONTS, HEAD_SCRIPT, PAGE_SCRIPT, topbar } from './theme.mjs';
+import { BASE_CSS, BLOG_FLAG_CSS, BLOG_FLAG_SCRIPT, FONTS, HEAD_SCRIPT, PAGE_SCRIPT, topbar } from './theme.mjs';
 import { BLOG_CSS } from './blog-css.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -150,8 +150,10 @@ ${FONTS}
 ${extraHead}
 <style>
 ${BASE_CSS}
+${BLOG_FLAG_CSS}
 ${css}
 </style>
+${BLOG_FLAG_SCRIPT}
 </head>
 
 <body>
@@ -195,7 +197,7 @@ ${g.posts.map(postRow).join('\n')}
       </ul>
     </div>`).join('\n');
 
-  const body = `<main id="top">
+  const body = `<main id="top" data-blog-only>
 
   <div class="block">
     <h1 class="sr-only">Writing</h1>
@@ -244,7 +246,7 @@ function postPage(post, { prev, next }) {
     mainEntityOfPage: `${SITE}/blog/${post.slug}/`,
   }).replace(/</g, '\\u003c');
 
-  const body = `<main id="top">
+  const body = `<main id="top" data-blog-only>
 
   <article class="block">
     <header class="post-hero">
@@ -336,6 +338,26 @@ async function build() {
       postPage(posts[i], { next: posts[i - 1], prev: posts[i + 1] }),
     );
   }
+
+  // The Togul SDK is plain ESM with no dependencies; serve it from the site so
+  // the browser needs nothing from a CDN.
+  const vendorDir = join(ROOT, 'public', 'vendor', 'togul');
+  await rm(vendorDir, { recursive: true, force: true });
+  await cp(join(ROOT, 'node_modules', '@togul', 'js', 'dist'), vendorDir, {
+    recursive: true,
+    filter: (src) => !/\.(map|ts|mts)$/.test(src),
+  });
+
+  // The Togul SDK key comes from the environment, not the repo. Without it the
+  // blog flag can't be evaluated, so the blog stays hidden.
+  const sdkKey = process.env.TOGUL_SDK_KEY || '';
+  if (!sdkKey) console.warn('warning: TOGUL_SDK_KEY is not set, the blog will stay hidden');
+  const template = await readFile(join(ROOT, 'scripts', 'blog-flag.template.js'), 'utf8');
+  await mkdir(join(ROOT, 'public', 'js'), { recursive: true });
+  await writeFile(
+    join(ROOT, 'public', 'js', 'blog-flag.js'),
+    template.replace('__TOGUL_SDK_KEY__', () => sdkKey.replace(/[^\w-]/g, '')),
+  );
 
   await writeFile(join(ROOT, 'public', 'sitemap.xml'), sitemap(posts));
   await writeFile(
