@@ -348,6 +348,17 @@ async function build() {
     filter: (src) => !/\.(map|ts|mts)$/.test(src),
   });
 
+  // The Togul SDK key comes from the environment, not the repo. Without it the
+  // blog flag can't be evaluated, so the blog stays hidden.
+  const sdkKey = process.env.TOGUL_SDK_KEY || '';
+  if (!sdkKey) console.warn('warning: TOGUL_SDK_KEY is not set, the blog will stay hidden');
+  const template = await readFile(join(ROOT, 'scripts', 'blog-flag.template.js'), 'utf8');
+  await mkdir(join(ROOT, 'public', 'js'), { recursive: true });
+  await writeFile(
+    join(ROOT, 'public', 'js', 'blog-flag.js'),
+    template.replace('__TOGUL_SDK_KEY__', () => sdkKey.replace(/[^\w-]/g, '')),
+  );
+
   await writeFile(join(ROOT, 'public', 'sitemap.xml'), sitemap(posts));
   await writeFile(
     join(ROOT, 'public', 'robots.txt'),

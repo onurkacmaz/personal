@@ -61,6 +61,13 @@ The renderer covers headings, lists, quotes, tables, fenced code, images and
 links. It is `scripts/markdown.mjs`, about two hundred lines, written here so
 `wrangler` stays the only dependency in the repo.
 
+## Blog flag
+
+The blog is behind the Togul feature flag `blog` (see
+`scripts/blog-flag.template.js`). The SDK key is not in the repo: set
+`TOGUL_SDK_KEY` as a build variable in Workers Builds (and in your shell for
+local builds). Without it the blog stays hidden.
+
 ## Local
 
 ```sh
