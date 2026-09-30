@@ -6,6 +6,11 @@
 export const HEAD_SCRIPT =
   `<script>try{if(localStorage.getItem('theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.querySelector('meta[name="theme-color"]').setAttribute('content','#0d0d0d')}}catch(e){}</script>`;
 
+// The blog is behind the Togul flag "blog" (public/js/blog-flag.js). Anything
+// marked data-blog-only stays hidden until that script turns the flag on.
+export const BLOG_FLAG_CSS = `html:not([data-blog="on"]) [data-blog-only]{display:none!important}`;
+export const BLOG_FLAG_SCRIPT = `<script type="module" src="/js/blog-flag.js"></script>`;
+
 export const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">`;
@@ -140,7 +145,7 @@ export function topbar({ current = '' } = {}) {
       </div>
     </div>
     <div class="bar-right">
-      <a class="bar-link" href="/blog/"${current === 'blog' ? ' aria-current="page"' : ''}>Writing</a>
+      <a class="bar-link" data-blog-only href="/blog/"${current === 'blog' ? ' aria-current="page"' : ''}>Writing</a>
       <button class="theme-btn" id="theme-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>

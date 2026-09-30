@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "wrangler": "^4.129.0"
+  },
+  "dependencies": {
+    "@togul/js": "^0.6.0"
   }
 }
