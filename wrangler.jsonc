@@ -7,10 +7,15 @@
   // explicitly instead of leaving the choice to a prompt.
   "account_id": "e663e3d933363fff9f6408fabad8db0d",
 
-  // No "main": this Worker serves static assets only, so requests are
-  // answered straight from the edge without invoking any script.
+  // The Worker serves the static assets and answers one API route, the Togul
+  // blog-flag evaluation. run_worker_first sends only that route to the
+  // script; every other request is answered straight from the assets.
+  // The key is the TOGUL_SDK_KEY secret (dashboard, or `wrangler secret put`).
+  "main": "src/worker.js",
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/v1/*"],
     // Without this, an unmatched path returns a 404 with an empty body.
     "not_found_handling": "404-page"
   },

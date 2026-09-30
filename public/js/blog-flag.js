@@ -5,9 +5,9 @@
 // outcome of any failure (network, bad key, missing flag), is hidden.
 // On a blog page, an off flag also sends the visitor back to the front page.
 //
-// Template: scripts/build.mjs fills in the key from TOGUL_SDK_KEY and writes
-// public/js/blog-flag.js, so the key never lives in the repo. It is still a
-// client-side key and is visible to anyone who opens the page.
+// The SDK talks to this site's own /api/v1/evaluate (src/worker.js), which
+// adds the real key server-side. The apiKey below is only there because the
+// SDK refuses an empty one; the Worker ignores it.
 
 import { TogulClient } from '/vendor/togul/index.mjs';
 
@@ -15,8 +15,9 @@ const FLAG = 'blog';
 
 async function blogEnabled() {
   const client = new TogulClient({
-    apiKey: '__TOGUL_SDK_KEY__',
+    apiKey: 'proxied',
     environment: 'production',
+    baseUrl: location.origin,
   });
   const result = await client.evaluate(FLAG);
   // `enabled` only says the flag record is active; `value` is the evaluation.
